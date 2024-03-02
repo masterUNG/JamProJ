@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pruksa/pages/add_appointment.dart';
 import 'package:pruksa/pages/add_contact.dart';
 import 'package:pruksa/pages/add_damrong.dart';
@@ -37,7 +40,7 @@ final Map<String, WidgetBuilder> map = {
 String? initlalRoute;
 
 Future<Null> main() async {
-  //HttpOverrides.global = MyHttpOverride();
+  HttpOverrides.global = MyHttpOverride();
   WidgetsFlutterBinding.ensureInitialized();
 
   // Only call clearSavedSettings() during testing to reset internal values.
@@ -73,7 +76,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     MaterialColor materialColor =
         MaterialColor(0xfff06292, MyConstant.mapMaterialColor);
-    return MaterialApp(
+
+    return GetMaterialApp(
       title: MyConstant.appName,
       home: UpgradeAlert(
           child: Scaffold(
@@ -82,7 +86,7 @@ class MyApp extends StatelessWidget {
       )),
       routes: map,
       initialRoute: initlalRoute,
-      theme: ThemeData(primarySwatch: materialColor,useMaterial3: false),
+      theme: ThemeData(primarySwatch: materialColor, useMaterial3: false),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -94,5 +98,14 @@ class MyApp extends StatelessWidget {
         const Locale('th', 'TH'), // Thai
       ],
     );
+  }
+}
+
+class MyHttpOverride extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    // TODO: implement createHttpClient
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (cert, host, port) => true;
   }
 }

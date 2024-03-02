@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:pruksa/pages/appoint_his.dart';
@@ -119,7 +120,7 @@ class _DashboardState extends State<Dashboard> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.notifications_none,
                 color: Colors.white,
               ),
@@ -251,144 +252,143 @@ class _DashboardState extends State<Dashboard> {
           ],
         )),
         body: SafeArea(
-          child: Column(
+          child: ListView(
             children: [
               BuildTop(),
               Buildtitel(),
-              SizedBox(
+              const SizedBox(
                 height: 15.0,
               ),
-              Container(
-                height: 180,
-                child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, childAspectRatio: 3 / 2),
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => InformHis()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/dopa.png'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('แจ้งจุดเสี่ยง')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InformDisHis()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/disaster.jpg'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('แจ้งสาธารณภัย')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Informdamhis()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/damrong.jpg'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('ร้องทุกข์ร้องเรียน')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RedcrossHis()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/redcross.jpg'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('งานกาดชาด')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ContactHis()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/webboard.png'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('ติดต่อสอบถาม')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AppointHis()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/appoint.png'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('จองคิว')
-                        ],
-                      ),
-                    ),
-                  ],
+              GridView(physics: const ScrollPhysics(),shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 3 / 2,
                 ),
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const InformHis()),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          child: Image.asset('images/dopa.png'),
+                          backgroundColor: MyConstant.dark,
+                        ),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        Text('แจ้งจุดเสี่ยง')
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InformDisHis()),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          child: Image.asset('images/disaster.jpg'),
+                          backgroundColor: MyConstant.dark,
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text('แจ้งสาธารณภัย')
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Informdamhis()),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          child: Image.asset('images/damrong.jpg'),
+                          backgroundColor: MyConstant.dark,
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text('ร้องทุกข์ร้องเรียน')
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RedcrossHis()),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          child: Image.asset('images/redcross.jpg'),
+                          backgroundColor: MyConstant.dark,
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text('งานกาดชาด')
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ContactHis()),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          child: Image.asset('images/webboard.png'),
+                          backgroundColor: MyConstant.dark,
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text('ติดต่อสอบถาม')
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AppointHis()),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          child: Image.asset('images/appoint.png'),
+                          backgroundColor: MyConstant.dark,
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Text('จองคิว')
+                      ],
+                    ),
+                  ),
+                ],
               ),
               ListTile(
                 title: Text(
@@ -430,50 +430,49 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  Expanded BuildNews() {
-    return Expanded(
-      child: ListView.builder(
-          itemCount: newsmodels.length,
-          itemBuilder: (context, index) => Card(
-                elevation: 10.0,
-                margin:
-                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(246, 242, 247, 0.894)),
-                  child: ListTile(
-                    onTap: () {
-                      print('## You Click Edit');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NewsDetail(
-                              newsModel: newsmodels[index],
-                            ),
-                          )).then((value) => loadvaluefromapi());
-                    },
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl:
-                            ('${MyConstant.domain}/images/news/${newsmodels[index].news_cover}'),
-                        placeholder: (context, url) => ShowProgress(),
-                        errorWidget: (context, url, error) =>
-                            ShowImage(path: MyConstant.imgdopa),
-                      ),
+  Widget BuildNews() {
+    return ListView.builder(
+        physics: const ScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: newsmodels.length,
+        itemBuilder: (context, index) => Card(
+              elevation: 10.0,
+              margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+              child: Container(
+                decoration:
+                    BoxDecoration(color: Color.fromRGBO(246, 242, 247, 0.894)),
+                child: ListTile(
+                  onTap: () {
+                    print('## You Click Edit');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewsDetail(
+                            newsModel: newsmodels[index],
+                          ),
+                        )).then((value) => loadvaluefromapi());
+                  },
+                  leading: Container(
+                    width: 60,
+                    height: 60,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl:
+                          ('${MyConstant.domain}/images/news/${newsmodels[index].news_cover}'),
+                      placeholder: (context, url) => ShowProgress(),
+                      errorWidget: (context, url, error) =>
+                          ShowImage(path: MyConstant.imgdopa),
                     ),
-                    title: Text('เรื่อง: ${newsmodels[index].news_name_th}'),
-                    subtitle: Text('รายละเอียด'),
-                    trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Color.fromARGB(255, 22, 22, 22), size: 30.0),
                   ),
+                  title: Text('เรื่อง: ${newsmodels[index].news_name_th}'),
+                  subtitle: Text('รายละเอียด'),
+                  trailing: Icon(Icons.keyboard_arrow_right,
+                      color: Color.fromARGB(255, 22, 22, 22), size: 30.0),
                 ),
-              )
-          //
-          ),
-    );
+              ),
+            )
+        //
+        );
   }
 
   ListTile MenuAbout() {
