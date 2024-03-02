@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pruksa/models/damrong_model.dart';
 import 'package:pruksa/pages/admin.dart';
 import 'package:pruksa/pages/edit_damrong.dart';
@@ -41,6 +42,8 @@ class _DamrongAllState extends State<DamrongAll> {
     print('### user_key = $key');
     String apigetactivelist =
         '${MyConstant.domain}/dopa/api/checkdamrong.php?isAdd=true&key=$key';
+
+    print('api ---> $apigetactivelist');
 
     await Dio().get(apigetactivelist).then((value) {
       print('value ==> $value');
@@ -102,13 +105,7 @@ class _DamrongAllState extends State<DamrongAll> {
               ),
               child: const Text('ตกลง'),
               onPressed: () {
-               // Navigator.of(context).pop();
-               // Navigator.of(context).pop();
-                 Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Admin()),
-                        );
+                Get.offAllNamed(MyConstant.routeAdmin);
               },
             ),
           ],

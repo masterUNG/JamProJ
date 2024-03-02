@@ -34,7 +34,7 @@ final Map<String, WidgetBuilder> map = {
   '/add_news': (BuildContext context) => AddNews(),
   '/add_faq': (BuildContext context) => AddFaq(),
   '/add_pr': (BuildContext context) => AddNewsPr(),
-  '/admin': (BuildContext context) => Admin(),
+  MyConstant.routeAdmin: (BuildContext context) => const Admin(),
 };
 
 String? initlalRoute;
@@ -60,7 +60,7 @@ Future<void> main() async {
       runApp(const MyApp());
     } else {
       //Admin Type
-      initlalRoute = MyConstant.domain;
+      initlalRoute = MyConstant.routeAdmin;
       runApp(const MyApp());
     }
   }
