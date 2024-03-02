@@ -19,6 +19,7 @@ import 'package:pruksa/pages/news_detail.dart';
 
 import 'package:pruksa/pages/newspr.dart';
 import 'package:pruksa/pages/redcross_his.dart';
+import 'package:pruksa/utility/app_service.dart';
 
 import 'package:pruksa/utility/my_constant.dart';
 
@@ -54,8 +55,9 @@ class _DashboardState extends State<Dashboard> {
   String? avatar;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    AppService().processNoti(fromAdmin: false);
 
     finduser();
     loadvaluefromapi();
@@ -259,7 +261,9 @@ class _DashboardState extends State<Dashboard> {
               const SizedBox(
                 height: 15.0,
               ),
-              GridView(physics: const ScrollPhysics(),shrinkWrap: true,
+              GridView(
+                physics: const ScrollPhysics(),
+                shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 3 / 2,
@@ -269,7 +273,8 @@ class _DashboardState extends State<Dashboard> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const InformHis()),
+                        MaterialPageRoute(
+                            builder: (context) => const InformHis()),
                       );
                     },
                     child: Column(
@@ -289,8 +294,7 @@ class _DashboardState extends State<Dashboard> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => InformDisHis()),
+                        MaterialPageRoute(builder: (context) => InformDisHis()),
                       );
                     },
                     child: Column(
@@ -310,8 +314,7 @@ class _DashboardState extends State<Dashboard> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => Informdamhis()),
+                        MaterialPageRoute(builder: (context) => Informdamhis()),
                       );
                     },
                     child: Column(
@@ -331,8 +334,7 @@ class _DashboardState extends State<Dashboard> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => RedcrossHis()),
+                        MaterialPageRoute(builder: (context) => RedcrossHis()),
                       );
                     },
                     child: Column(

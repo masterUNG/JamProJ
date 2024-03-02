@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,29 +42,33 @@ String? initlalRoute;
 
 Future<void> main() async {
   HttpOverrides.global = MyHttpOverride();
+ 
+
+  
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Only call clearSavedSettings() during testing to reset internal values.
-  // await Upgrader.clearSavedSettings();
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences preferences = await SharedPreferences.getInstance();
+  await Firebase.initializeApp().then((value) async {
+    print('## initial Firebase Success');
 
-  String? type = preferences.getString('type');
+    SharedPreferences preferences = await SharedPreferences.getInstance();
 
-  if (type == null) {
-    initlalRoute = MyConstant.routeLogin;
-    runApp(const MyApp());
-  } else {
-    if (type == 'user') {
-      //user Type
-      initlalRoute = MyConstant.routeDashboard;
+    String? type = preferences.getString('type');
+
+    if (type == null) {
+      initlalRoute = MyConstant.routeLogin;
       runApp(const MyApp());
     } else {
-      //Admin Type
-      initlalRoute = MyConstant.routeAdmin;
-      runApp(const MyApp());
+      if (type == 'user') {
+        //user Type
+        initlalRoute = MyConstant.routeDashboard;
+        runApp(const MyApp());
+      } else {
+        //Admin Type
+        initlalRoute = MyConstant.routeAdmin;
+        runApp(const MyApp());
+      }
     }
-  }
+  });
 }
 
 class MyApp extends StatelessWidget {

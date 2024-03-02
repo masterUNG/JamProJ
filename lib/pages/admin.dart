@@ -15,6 +15,7 @@ import 'package:pruksa/pages/newpr_list.dart';
 import 'package:pruksa/pages/news.dart';
 import 'package:pruksa/pages/news_detail.dart';
 import 'package:pruksa/pages/newspr.dart';
+import 'package:pruksa/utility/app_service.dart';
 import 'package:pruksa/utility/my_constant.dart';
 import 'package:pruksa/wigets/show_image.dart';
 import 'package:pruksa/wigets/show_progress.dart';
@@ -43,8 +44,10 @@ class _AdminState extends State<Admin> {
   int _selectedIndex = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    AppService().processNoti(fromAdmin: true);
+
     loadvaluefromapi();
     finduser();
     // initialFile();
@@ -248,114 +251,114 @@ class _AdminState extends State<Admin> {
 
   GridView gridGroup(BuildContext context) {
     return GridView(
-              physics: const ScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: 3 / 2),
-              children: [
-                Buildrisk(context),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DisasterAll()),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        child: Image.asset('images/disaster.jpg'),
-                        backgroundColor: MyConstant.dark,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text('ข้อมูลสาธารณภัย')
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DamrongAll()),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        child: Image.asset('images/damrong.jpg'),
-                        backgroundColor: MyConstant.dark,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text('ข้อมูลร้องทุกข์ร้องเรียน')
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => InfromNews()),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        child: Image.asset('images/news.png'),
-                        backgroundColor: MyConstant.dark,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text('ประชาสัมพันธ์')
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NewPrList()),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        child: Image.asset('images/pr.png'),
-                        backgroundColor: MyConstant.dark,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text('ประกาศ')
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => FaqHis()),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        child: Image.asset('images/faq.png'),
-                        backgroundColor: MyConstant.dark,
-                      ),
-                      SizedBox(
-                        height: 10.0,
-                      ),
-                      Text('คำถามที่พบบ่อย')
-                    ],
-                  ),
-                ),
-              ],
+      physics: const ScrollPhysics(),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3, childAspectRatio: 3 / 2),
+      children: [
+        Buildrisk(context),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DisasterAll()),
             );
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                child: Image.asset('images/disaster.jpg'),
+                backgroundColor: MyConstant.dark,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('ข้อมูลสาธารณภัย')
+            ],
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DamrongAll()),
+            );
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                child: Image.asset('images/damrong.jpg'),
+                backgroundColor: MyConstant.dark,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('ข้อมูลร้องทุกข์ร้องเรียน')
+            ],
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => InfromNews()),
+            );
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                child: Image.asset('images/news.png'),
+                backgroundColor: MyConstant.dark,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('ประชาสัมพันธ์')
+            ],
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NewPrList()),
+            );
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                child: Image.asset('images/pr.png'),
+                backgroundColor: MyConstant.dark,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text('ประกาศ')
+            ],
+          ),
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FaqHis()),
+            );
+          },
+          child: Column(
+            children: [
+              CircleAvatar(
+                child: Image.asset('images/faq.png'),
+                backgroundColor: MyConstant.dark,
+              ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Text('คำถามที่พบบ่อย')
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   AppBar mainAppBar() {
@@ -422,16 +425,16 @@ class _AdminState extends State<Admin> {
   }
 
   Widget BuildNews() {
-    return ListView.builder(physics: const ScrollPhysics(),
+    return ListView.builder(
+        physics: const ScrollPhysics(),
         shrinkWrap: true,
         itemCount: newsmodels.length,
         itemBuilder: (context, index) => Card(
               elevation: 10.0,
-              margin:
-                  new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+              margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
               child: Container(
-                decoration: BoxDecoration(
-                    color: Color.fromRGBO(246, 242, 247, 0.894)),
+                decoration:
+                    BoxDecoration(color: Color.fromRGBO(246, 242, 247, 0.894)),
                 child: ListTile(
                   onTap: () {
                     print('## You Click Edit');
