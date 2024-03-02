@@ -94,146 +94,19 @@ class _AdminState extends State<Admin> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          // backgroundColor: Colors.transparent,
-          backgroundColor: MyConstant.primary,
-          elevation: 0,
-
-          title: Text('P(Pruksa) Project'),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications_none,
-                color: Colors.white,
-              ),
-            )
-          ],
-        ),
+        appBar: mainAppBar(),
         body: SafeArea(
-          child: Column(
+          child: ListView(
             children: [
               BuildTop(),
-              SizedBox(
+              const SizedBox(
                 height: 15.0,
               ),
               Buildtitel(),
-              SizedBox(
+              const SizedBox(
                 height: 15.0,
               ),
-              Container(
-                height: 200,
-                child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, childAspectRatio: 3 / 2),
-                  children: [
-                    Buildrisk(context),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DisasterAll()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/disaster.jpg'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('ข้อมูลสาธารณภัย')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                            onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DamrongAll()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/damrong.jpg'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('ข้อมูลร้องทุกข์ร้องเรียน')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => InfromNews()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/news.png'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('ประชาสัมพันธ์')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => NewPrList()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/pr.png'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('ประกาศ')
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                         onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => FaqHis()),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            child: Image.asset('images/faq.png'),
-                            backgroundColor: MyConstant.dark,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text('คำถามที่พบบ่อย')
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              gridGroup(context),
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Row(
@@ -288,8 +161,8 @@ class _AdminState extends State<Admin> {
                       primary: Colors.pink,
                     ),
                     onPressed: () {
-                       Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AdminMenu()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AdminMenu()));
                     },
                     child: Icon(
                       Icons.widgets,
@@ -373,6 +246,138 @@ class _AdminState extends State<Admin> {
         ));
   }
 
+  GridView gridGroup(BuildContext context) {
+    return GridView(
+              physics: const ScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, childAspectRatio: 3 / 2),
+              children: [
+                Buildrisk(context),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DisasterAll()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset('images/disaster.jpg'),
+                        backgroundColor: MyConstant.dark,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text('ข้อมูลสาธารณภัย')
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DamrongAll()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset('images/damrong.jpg'),
+                        backgroundColor: MyConstant.dark,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text('ข้อมูลร้องทุกข์ร้องเรียน')
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => InfromNews()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset('images/news.png'),
+                        backgroundColor: MyConstant.dark,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text('ประชาสัมพันธ์')
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NewPrList()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset('images/pr.png'),
+                        backgroundColor: MyConstant.dark,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text('ประกาศ')
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FaqHis()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        child: Image.asset('images/faq.png'),
+                        backgroundColor: MyConstant.dark,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text('คำถามที่พบบ่อย')
+                    ],
+                  ),
+                ),
+              ],
+            );
+  }
+
+  AppBar mainAppBar() {
+    return AppBar(
+      // backgroundColor: Colors.transparent,
+      backgroundColor: MyConstant.primary,
+      elevation: 0,
+
+      title: Text('P(Pruksa) Project'),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.notifications_none,
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+  }
+
   InkWell Buildrisk(BuildContext context) {
     return InkWell(
       onTap: () {
@@ -416,51 +421,49 @@ class _AdminState extends State<Admin> {
     );
   }
 
-  Expanded BuildNews() {
-    return Expanded(
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: newsmodels.length,
-          itemBuilder: (context, index) => Card(
-                elevation: 10.0,
-                margin:
-                    new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(246, 242, 247, 0.894)),
-                  child: ListTile(
-                    onTap: () {
-                      print('## You Click Edit');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NewsDetail(
-                              newsModel: newsmodels[index],
-                            ),
-                          )).then((value) => loadvaluefromapi());
-                    },
-                    leading: Container(
-                      width: 60,
-                      height: 60,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl:
-                            ('${MyConstant.domain}/images/news/${newsmodels[index].news_cover}'),
-                        placeholder: (context, url) => ShowProgress(),
-                        errorWidget: (context, url, error) =>
-                            ShowImage(path: MyConstant.imgdopa),
-                      ),
+  Widget BuildNews() {
+    return ListView.builder(physics: const ScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: newsmodels.length,
+        itemBuilder: (context, index) => Card(
+              elevation: 10.0,
+              margin:
+                  new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color.fromRGBO(246, 242, 247, 0.894)),
+                child: ListTile(
+                  onTap: () {
+                    print('## You Click Edit');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewsDetail(
+                            newsModel: newsmodels[index],
+                          ),
+                        )).then((value) => loadvaluefromapi());
+                  },
+                  leading: Container(
+                    width: 60,
+                    height: 60,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl:
+                          ('${MyConstant.domain}/images/news/${newsmodels[index].news_cover}'),
+                      placeholder: (context, url) => ShowProgress(),
+                      errorWidget: (context, url, error) =>
+                          ShowImage(path: MyConstant.imgdopa),
                     ),
-                    title: Text('เรื่อง:${newsmodels[index].news_name_th}'),
-                    subtitle: Text('รายละเอียด'),
-                    trailing: Icon(Icons.keyboard_arrow_right,
-                        color: Color.fromARGB(255, 22, 22, 22), size: 30.0),
                   ),
+                  title: Text('เรื่อง:${newsmodels[index].news_name_th}'),
+                  subtitle: Text('รายละเอียด'),
+                  trailing: Icon(Icons.keyboard_arrow_right,
+                      color: Color.fromARGB(255, 22, 22, 22), size: 30.0),
                 ),
-              )
-          //
-          ),
-    );
+              ),
+            )
+        //
+        );
   }
 
   Container BuildTop() {

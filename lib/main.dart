@@ -39,33 +39,30 @@ final Map<String, WidgetBuilder> map = {
 
 String? initlalRoute;
 
-Future<Null> main() async {
+Future<void> main() async {
   HttpOverrides.global = MyHttpOverride();
   WidgetsFlutterBinding.ensureInitialized();
 
   // Only call clearSavedSettings() during testing to reset internal values.
-  await Upgrader.clearSavedSettings();
+  // await Upgrader.clearSavedSettings();
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //String? type = preferences.getString('type');
-  String? type = preferences.getString('cid');
-  // print('### type ===>> $type');
-  /*
-  if (type?.isEmpty ?? true) {
-    initlalRoute = MyConstant.routeLogin;
-    runApp(MyApp());
-  } else {
-    initlalRoute = MyConstant.routeDashboard;
-    runApp(MyApp());
-  }
-  */
 
-  if (type?.isEmpty ?? true) {
+  String? type = preferences.getString('type');
+
+  if (type == null) {
     initlalRoute = MyConstant.routeLogin;
-    runApp(MyApp());
+    runApp(const MyApp());
   } else {
-    initlalRoute = MyConstant.routeDashboard;
-    runApp(MyApp());
+    if (type == 'user') {
+      //user Type
+      initlalRoute = MyConstant.routeDashboard;
+      runApp(const MyApp());
+    } else {
+      //Admin Type
+      initlalRoute = MyConstant.domain;
+      runApp(const MyApp());
+    }
   }
 }
 
@@ -79,11 +76,11 @@ class MyApp extends StatelessWidget {
 
     return GetMaterialApp(
       title: MyConstant.appName,
-      home: UpgradeAlert(
-          child: Scaffold(
-        appBar: AppBar(title: Text('Upgrader Example')),
-        body: Center(child: Text('Checking...')),
-      )),
+      // home: UpgradeAlert(
+      //     child: Scaffold(
+      //   appBar: AppBar(title: Text('Upgrader Example')),
+      //   body: Center(child: Text('Checking...')),
+      // )),
       routes: map,
       initialRoute: initlalRoute,
       theme: ThemeData(primarySwatch: materialColor, useMaterial3: false),

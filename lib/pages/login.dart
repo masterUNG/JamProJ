@@ -197,13 +197,15 @@ class _LoginState extends State<Login> {
   Future<Null> checkUser({String? user, String? password}) async {
     String? apiCheckAuthen =
         '${MyConstant.domain}/dopa/api/checklogin.php?isAdd=true&user=$user&password=$password';
+
+    print('apiCheckAuthen ====> $apiCheckAuthen');
+
     await Dio().get(apiCheckAuthen).then((value) async {
       print('## value for API ==>> $value');
       if (value.toString() == 'null') {
         MyDialog().normalDialog(
-            context, 'ไม่สามารถเข้าระบบได้!!!', 'ไม่มี $user ในฐานข้อมูล');
+            context, 'ไม่สามารถเข้าระบบได้!!!', 'User หรือ Password ผิด');
       } else {
-        print('aaaaaa');
         for (var item in json.decode(value.data)) {
           UserModel model = UserModel.fromMap(item);
 
@@ -212,11 +214,10 @@ class _LoginState extends State<Login> {
           // print('## Authen Success in Type ==> $type');
           SharedPreferences preferences = await SharedPreferences.getInstance();
 
+          preferences.setString('type', 'admin');
+
           preferences.setString('id', model.user_key);
-          // var user_key = await preferences.getString('id');
-          //  preferences.setString('type', model.user_position);
           preferences.setString('posname', model.pos_name);
-          // preferences.setString('name', model.name);
           preferences.setString('fullname', model.fullname);
           preferences.setString('user_photo', model.user_photo);
 
@@ -251,6 +252,9 @@ class _LoginState extends State<Login> {
 
             SharedPreferences preferences =
                 await SharedPreferences.getInstance();
+
+            preferences.setString('type', 'user');
+
             preferences.setString('cid', model.cid);
             preferences.setString('phone', model.phone);
             preferences.setString('lastname', model.lastname);
