@@ -48,6 +48,8 @@ class _AdminState extends State<Admin> {
 
     AppService().processNoti(fromAdmin: true);
 
+    AppService().processCheckNoti();
+
     loadvaluefromapi();
     finduser();
     // initialFile();
@@ -310,7 +312,7 @@ class _AdminState extends State<Admin> {
                 child: Image.asset('images/news.png'),
                 backgroundColor: MyConstant.dark,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               Text('ประชาสัมพันธ์')

@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 class UserModel {
-
   final String fullname;
   final String user_key;
   final String? user_phone;
@@ -11,6 +10,7 @@ class UserModel {
   final String lastname;
   final String user_position;
   final String pos_name;
+  final String? token;
   UserModel({
     required this.fullname,
     required this.user_key,
@@ -20,9 +20,8 @@ class UserModel {
     required this.lastname,
     required this.user_position,
     required this.pos_name,
+    this.token,
   });
-
-  
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -34,6 +33,7 @@ class UserModel {
       'lastname': lastname,
       'user_position': user_position,
       'pos_name': pos_name,
+      'token': token,
     };
   }
 
@@ -41,16 +41,19 @@ class UserModel {
     return UserModel(
       fullname: (map['fullname'] ?? '') as String,
       user_key: (map['user_key'] ?? '') as String,
-      user_phone: map['user_phone'] != null ? map['user_phone'] as String : null,
+      user_phone:
+          map['user_phone'] != null ? map['user_phone'] as String : null,
       user_photo: (map['user_photo'] ?? '') as String,
       name: (map['name'] ?? '') as String,
       lastname: (map['lastname'] ?? '') as String,
       user_position: (map['user_position'] ?? '') as String,
       pos_name: (map['pos_name'] ?? '') as String,
+      token: (map['token'] ?? '') as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

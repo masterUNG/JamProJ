@@ -16,6 +16,9 @@ class InformriskModel {
   final String? inform_remark;
   final String? lat;
   final String? lng;
+
+
+  
   InformriskModel({
     required this.cid,
     required this.inform_name,

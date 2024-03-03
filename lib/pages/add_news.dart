@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pruksa/utility/app_controller.dart';
+import 'package:pruksa/utility/app_service.dart';
 import 'package:pruksa/utility/my_constant.dart';
 import 'package:pruksa/utility/my_dialog.dart';
 import 'package:pruksa/wigets/show_image.dart';
@@ -23,12 +26,20 @@ class _AddNewsState extends State<AddNews> {
   TextEditingController titelController = TextEditingController();
   TextEditingController detailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  AppController appController = Get.put(AppController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AppService().processReadAllAdmin();
+  }
+
   @override
   Widget build(BuildContext context) {
     double size = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('เพิ่มข่าวประชาสัมพันธ์'),
+        title: const Text('เพิ่มข่าวประชาสัมพันธ์'),
         backgroundColor: Colors.pinkAccent,
       ),
       body: GestureDetector(
@@ -37,24 +48,25 @@ class _AddNewsState extends State<AddNews> {
         child: Form(
           key: formKey,
           child: ListView(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             children: [
               BuildTitel(),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               BuildDetail(),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              ShowTitle(title: 'กรุณาเพิ่มรูปภาพถ้ามี'),
-              SizedBox(
+              const ShowTitle(title: 'กรุณาเพิ่มรูปภาพถ้ามี'),
+              const SizedBox(
                 height: 20,
               ),
               buildAvatar(size),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
+              listUserAdmin(),
               buildbutton(),
             ],
           ),
@@ -63,49 +75,57 @@ class _AddNewsState extends State<AddNews> {
     );
   }
 
+  Obx listUserAdmin() {
+    return Obx(() {
+      return appController.userModels.isEmpty
+          ? const SizedBox()
+          : ListView.builder(
+              shrinkWrap: true,
+              physics: const ScrollPhysics(),
+              itemCount: appController.chooseUserModels.length,
+              itemBuilder: (context, index) => CheckboxListTile(
+                activeColor: Colors.blue,
+                value: appController.chooseUserModels[index],
+                onChanged: (value) {
+                  appController.chooseUserModels[index] = value!;
+                },
+                title: Text(appController.userModels[index].fullname),
+              ),
+            );
+    });
+  }
+
   Future<Null> uploadPictureAndInsertData() async {
     String titel = titelController.text;
     String detail = detailController.text;
-    SharedPreferences preference = await SharedPreferences.getInstance();
 
-    String cid = preference.getString('cid')!;
-    String phone = preference.getString('phone')!;
-    String name = preference.getString('name')!;
-    String lastname = preference.getString('lastname')!;
     print('## สถานที่ = $titel ,รายละเอียด = $detail');
 
     if (file == null) {
       // No Avatar
-      processInsertMySQL(
-        name: name,
-        titel: titel,
-        detail: detail,
-        phone: phone,
-        lastname: lastname,
-        cid: cid,
-      );
+      MyDialog()
+          .normalDialog(context, 'ไม่ได้แนบรูปภาพ ?', 'กรุณาแนบรูปภาพด้วยค่ะ');
     } else {
       //      // Have Avatar
       print('### process Upload Avatar');
+      SharedPreferences preference = await SharedPreferences.getInstance();
+      String userkey = preference.getString('id')!;
 
-      print('### cid = $cid');
+      print('### key = $userkey');
 
       print('### process Upload Avatar');
-      String apiSaveAvatar = '${MyConstant.domain}/dopa/api/savecontactpic.php';
+      String apiSaveAvatar = '${MyConstant.domain}/dopa/api/savenewpic.php';
       int i = Random().nextInt(100000);
-      String nameAvatar = 'dis$i.jpg';
+      String nameAvatar = 'new$i.jpg';
       Map<String, dynamic> map = Map();
       map['file'] =
-          await MultipartFile.fromFile(file!.path, filename: nameAvatar);
-      FormData data = FormData.fromMap(map);
-      await Dio().post(apiSaveAvatar, data: data).then((value) {
+          await dio.MultipartFile.fromFile(file!.path, filename: nameAvatar);
+      dio.FormData data = dio.FormData.fromMap(map);
+      await dio.Dio().post(apiSaveAvatar, data: data).then((value) {
         avatar = '$nameAvatar';
         print('### avatar = $avatar');
         processInsertMySQL(
-          name: name,
-          lastname: lastname,
-          phone: phone,
-          cid: cid,
+          userkey: userkey,
           titel: titel,
           detail: detail,
         );
@@ -113,18 +133,26 @@ class _AddNewsState extends State<AddNews> {
     }
   }
 
-  Future<Null> processInsertMySQL(
-      {String? name,
-      String? titel,
-      String? phone,
-      String? detail,
-      String? lastname,
-      String? cid}) async {
+  Future<Null> processInsertMySQL({
+    String? titel,
+    String? userkey,
+    String? detail,
+  }) async {
     print('### processInsertMySQL Work and avatar ==>> $avatar');
     String apiInsertUser =
-        '${MyConstant.domain}/dopa/api/insertcontact.php?isAdd=true&name=$name&lastname=$lastname&cid=$cid&phone=$phone&titel=$titel&image=$avatar&detail=$detail';
-    await Dio().get(apiInsertUser).then((value) {
+        '${MyConstant.domain}/dopa/api/insertnews.php?isAdd=true&titel=$titel&image=$avatar&detail=$detail&userkey=$userkey';
+    await dio.Dio().get(apiInsertUser).then((value) {
       if (value.toString() == 'true') {
+        for (var i = 0; i < appController.chooseUserModels.length; i++) {
+          if ((appController.chooseUserModels[i]) &&
+              (appController.userModels[i].token!.isNotEmpty)) {
+            AppService().processSentNoti(
+                token: appController.userModels[i].token!,
+                title: titel!,
+                message: detail!);
+          }
+        }
+
         Navigator.pop(context);
       } else {
         MyDialog().normalDialog(
@@ -160,7 +188,7 @@ class _AddNewsState extends State<AddNews> {
           ),
         ),
         Container(
-          margin: EdgeInsets.symmetric(vertical: 16),
+          margin: const EdgeInsets.symmetric(vertical: 16),
           width: size * 0.5,
           height: size * 0.5,
           child: file == null
@@ -187,8 +215,8 @@ class _AddNewsState extends State<AddNews> {
           uploadPictureAndInsertData();
         }
       },
-      label: Text("เพิ่มข้อมูล"),
-      icon: Icon(
+      label: const Text("เพิ่มข้อมูล"),
+      icon: const Icon(
         Icons.save,
         size: 24,
       ),
@@ -196,16 +224,16 @@ class _AddNewsState extends State<AddNews> {
       //style: MyConstant().mydarkbutton(),
       style: ElevatedButton.styleFrom(
         primary: MyConstant.dark,
-        minimumSize: Size(100, 40), //elevated btton background color
+        minimumSize: const Size(100, 40), //elevated btton background color
       ),
     );
   }
 
   Container BuildTitel() {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(244, 243, 243, 1),
+        color: const Color.fromRGBO(244, 243, 243, 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
@@ -217,7 +245,7 @@ class _AddNewsState extends State<AddNews> {
             return null;
           }
         },
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'กรุณากรอกชื่อเรื่อง',
           hintStyle: TextStyle(color: Colors.grey, fontSize: 15),
@@ -228,9 +256,9 @@ class _AddNewsState extends State<AddNews> {
 
   Container BuildDetail() {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Color.fromRGBO(244, 243, 243, 1),
+        color: const Color.fromRGBO(244, 243, 243, 1),
         borderRadius: BorderRadius.circular(10),
       ),
       child: TextFormField(
@@ -243,7 +271,7 @@ class _AddNewsState extends State<AddNews> {
           }
         },
         maxLines: 4,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'กรุณากรอกรายละเอียด',
           hintStyle: TextStyle(color: Colors.grey, fontSize: 15),

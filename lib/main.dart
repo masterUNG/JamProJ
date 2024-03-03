@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pruksa/pages/add_appointment.dart';
 import 'package:pruksa/pages/add_contact.dart';
 import 'package:pruksa/pages/add_damrong.dart';
@@ -42,10 +43,10 @@ String? initlalRoute;
 
 Future<void> main() async {
   HttpOverrides.global = MyHttpOverride();
- 
 
-  
   WidgetsFlutterBinding.ensureInitialized();
+
+  await GetStorage.init();
 
   await Firebase.initializeApp().then((value) async {
     print('## initial Firebase Success');

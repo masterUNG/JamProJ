@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pruksa/models/informdis_model.dart';
 import 'package:pruksa/models/member_model.dart';
+import 'package:pruksa/utility/app_service.dart';
 import 'package:pruksa/utility/my_constant.dart';
 import 'package:pruksa/utility/my_dialog.dart';
 import 'package:pruksa/wigets/show_progress.dart';
@@ -160,6 +161,9 @@ class _EditDisasterState extends State<EditDisaster> {
                 height: 10.0,
               ),
               ShowTitle(title: 'Location :', textStyle: MyConstant().h2Style()),
+              ElevatedButton(onPressed: () {
+                AppService().goToDirection(lat: Dismodels!.lat!, lng: Dismodels!.lng!);
+              }, child: Text('Test Direction')),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -177,7 +181,11 @@ class _EditDisasterState extends State<EditDisaster> {
                       ),
                       markers: <Marker>{
                         Marker(
-                            markerId: MarkerId('id'),
+                            markerId: const MarkerId('id'),
+                            onTap: () {
+                              print('## tap marker');
+                              AppService().goToDirection(lat: Dismodels!.lat!, lng: Dismodels!.lng!);
+                            },
                             position: LatLng(
                               double.parse('${Dismodels!.lat}'),
                               double.parse('${Dismodels!.lng}'),
